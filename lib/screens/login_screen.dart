@@ -1,36 +1,33 @@
+// lib/screens/login_screen.dart
+
 import 'package:flutter/material.dart';
-import 'welcome_screen.dart';
+import 'evaluaciones_screen.dart'; // Importamos la nueva pantalla
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
+
   @override
   State<LoginScreen> createState() => _LoginScreenState();
 }
 
 class _LoginScreenState extends State<LoginScreen> {
-  final _formKey = GlobalKey<FormState>(); // Permite llamar validate()
-  final _emailCtrl = TextEditingController(); // Lee texto del usuario
-  final _passCtrl = TextEditingController();
+  final _formKey = GlobalKey<FormState>();
+  final _emailController = TextEditingController();
+  final _passwordController = TextEditingController();
 
   @override
   void dispose() {
-    _emailCtrl.dispose();
-    _passCtrl.dispose();
+    _emailController.dispose();
+    _passwordController.dispose();
     super.dispose();
   }
 
-  bool _isValidEmail(String v) {
-    final re = RegExp(r'^[\w\.\-]+@[\w\-]+\.[\w\-\.]+$');
-    return re.hasMatch(v);
-  }
-
-  void _onLogin() {
+  void _login() {
     if (_formKey.currentState!.validate()) {
+      // Si las validaciones son correctas, navegamos
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(
-          builder: (_) => WelcomeScreen(email: _emailCtrl.text),
-        ),
+        MaterialPageRoute(builder: (context) => const EvaluacionesScreen()),
       );
     }
   }
@@ -38,50 +35,82 @@ class _LoginScreenState extends State<LoginScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(title: const Text('Inicio de sesión')),
-      body: Padding(
-        padding: const EdgeInsets.all(16),
-        child: Form(
-          key: _formKey,
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.stretch,
-            children: [
-              TextFormField(
-                controller: _emailCtrl,
-                decoration: const InputDecoration(
-                  labelText: 'Correo',
-                  hintText: 'usuario@correo.com',
+      body: Center(
+        child: SingleChildScrollView(
+          padding: const EdgeInsets.all(24.0),
+          child: Form(
+            key: _formKey,
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              crossAxisAlignment: CrossAxisAlignment.stretch,
+              children: [
+                // Logo o Título
+                Icon(
+                  Icons.school_outlined,
+                  size: 80,
+                  color: Theme.of(context).primaryColor,
                 ),
-                keyboardType: TextInputType.emailAddress,
-                validator: (v) {
-                  if (v == null || v.trim().isEmpty) {
-                    return 'El correo es obligatorio';
-                  }
-                  if (!_isValidEmail(v.trim())) {
-                    return 'Formato de correo inválido';
-                  }
-                  return null;
-                },
-              ),
-              const SizedBox(height: 12),
-              TextFormField(
-                controller: _passCtrl,
-                decoration: const InputDecoration(labelText: 'Contraseña'),
-                obscureText: true,
-                validator: (v) {
-                  if (v == null || v.isEmpty) {
-                    return 'La contraseña es obligatoria';
-                  }
-                  if (v.length < 6) return 'Mínimo 6 caracteres';
-                  return null;
-                },
-              ),
-              const SizedBox(height: 20),
-              ElevatedButton(
-                onPressed: _onLogin,
-                child: const Text('Ingresar'),
-              ),
-            ],
+                const SizedBox(height: 20),
+                Text(
+                  'Bienvenido',
+                  textAlign: TextAlign.center,
+                  style: Theme.of(context).textTheme.headlineMedium?.copyWith(
+                    fontWeight: FontWeight.bold,
+                  ),
+                ),
+                const SizedBox(height: 40),
+
+                // Campo de Correo
+                TextFormField(
+                  controller: _emailController,
+                  decoration: const InputDecoration(
+                    labelText: 'Correo Electrónico',
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.email_outlined),
+                  ),
+                  keyboardType: TextInputType.emailAddress,
+                  validator: (value) {
+                    if (value == null ||
+                        value.isEmpty ||
+                        !value.contains('@')) {
+                      return 'Por favor, ingrese un correo válido';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 16),
+
+                // Campo de Contraseña
+                TextFormField(
+                  controller: _passwordController,
+                  decoration: const InputDecoration(
+                    labelText: 'Contraseña',
+                    border: OutlineInputBorder(),
+                    prefixIcon: Icon(Icons.lock_outline),
+                  ),
+                  obscureText: true,
+                  validator: (value) {
+                    if (value == null || value.isEmpty || value.length < 6) {
+                      return 'La contraseña debe tener al menos 6 caracteres';
+                    }
+                    return null;
+                  },
+                ),
+                const SizedBox(height: 24),
+
+                // Botón de Ingreso
+                ElevatedButton(
+                  onPressed: _login,
+                  style: ElevatedButton.styleFrom(
+                    padding: const EdgeInsets.symmetric(vertical: 16),
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(8),
+                    ),
+                  ),
+                  child: const Text('Ingresar'),
+                ),
+              ],
+            ),
           ),
         ),
       ),
