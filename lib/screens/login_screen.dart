@@ -54,10 +54,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 keyboardType: TextInputType.emailAddress,
                 validator: (v) {
-                  if (v == null || v.trim().isEmpty)
+                  if (v == null || v.trim().isEmpty) {
                     return 'El correo es obligatorio';
-                  if (!_isValidEmail(v.trim()))
+                  }
+                  if (!_isValidEmail(v.trim())) {
                     return 'Formato de correo inválido';
+                  }
                   return null;
                 },
               ),
@@ -67,8 +69,9 @@ class _LoginScreenState extends State<LoginScreen> {
                 decoration: const InputDecoration(labelText: 'Contraseña'),
                 obscureText: true,
                 validator: (v) {
-                  if (v == null || v.isEmpty)
+                  if (v == null || v.isEmpty) {
                     return 'La contraseña es obligatoria';
+                  }
                   if (v.length < 6) return 'Mínimo 6 caracteres';
                   return null;
                 },
