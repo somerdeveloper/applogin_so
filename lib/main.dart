@@ -1,64 +1,69 @@
-// lib/main.dart
-
 import 'package:flutter/material.dart';
-import 'screens/login_screen.dart'; // Asegúrate de que la ruta a tu login screen es correcta
+import 'screens/login_screen.dart'; // Tu pantalla de login
+import 'theme/colors.dart'; // Importamos nuestros colores personalizados
 
-// Esta es la función principal y obligatoria que inicia toda la aplicación.
 void main() {
-  runApp(const GestorEvaluacionesApp());
+  runApp(const MyApp());
 }
 
-// Este es el widget raíz de tu aplicación.
-class GestorEvaluacionesApp extends StatelessWidget {
-  const GestorEvaluacionesApp({super.key});
+class MyApp extends StatelessWidget {
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
-    // Definimos el color corporativo para usarlo en el tema.
-    const Color inacapRed = Color(0xFFED1C24);
-
     return MaterialApp(
-      title: 'Gestor de Evaluaciones',
+      title: 'App Evaluaciones',
       debugShowCheckedModeBanner: false,
-
-      // Aquí definimos el tema global para toda la app, cumpliendo con la rúbrica.
       theme: ThemeData(
-        primaryColor: inacapRed,
-        scaffoldBackgroundColor: Colors
-            .grey[50], // Un fondo ligeramente gris para que las tarjetas resalten
-        // Tema para la barra de navegación superior (AppBar)
+        // Tema principal de la aplicación
+        primarySwatch: Colors.red, // Usa una base de rojo
+        scaffoldBackgroundColor:
+            inacapLightGrey, // Color de fondo para las pantallas
+        // Define el tema para el AppBar
         appBarTheme: const AppBarTheme(
-          backgroundColor: inacapRed,
-          foregroundColor: Colors.white, // Texto e iconos en blanco
-          elevation: 2,
+          backgroundColor: inacapRed, // Rojo INACAP para la barra
+          foregroundColor: Colors.white, // Texto y iconos en blanco
+          elevation: 4.0,
+          titleTextStyle: TextStyle(fontSize: 20, fontWeight: FontWeight.bold),
         ),
 
-        // Tema para los botones elevados
+        // Define el tema para los botones elevados (ElevatedButton)
         elevatedButtonTheme: ElevatedButtonThemeData(
           style: ElevatedButton.styleFrom(
-            backgroundColor: inacapRed,
-            foregroundColor: Colors.white, // Texto en blanco
-            minimumSize: const Size(
-              double.infinity,
-              48,
-            ), // Ancho completo y altura fija
+            backgroundColor: inacapRed, // Rojo INACAP para botones
+            foregroundColor: Colors.white, // Texto del botón en blanco
+            padding: const EdgeInsets.symmetric(vertical: 14, horizontal: 24),
             shape: RoundedRectangleBorder(
               borderRadius: BorderRadius.circular(8),
             ),
           ),
         ),
 
-        // Tema para el botón de acción flotante
+        // Define el tema para los FloatingActionButton
         floatingActionButtonTheme: const FloatingActionButtonThemeData(
           backgroundColor: inacapRed,
           foregroundColor: Colors.white,
         ),
 
-        // Usar Material 3 le da un look más moderno
-        useMaterial3: true,
-      ),
+        // Define el tema para los campos de texto
+        inputDecorationTheme: InputDecorationTheme(
+          border: OutlineInputBorder(borderRadius: BorderRadius.circular(8)),
+          focusedBorder: OutlineInputBorder(
+            borderRadius: BorderRadius.circular(8),
+            borderSide: const BorderSide(color: inacapRed, width: 2),
+          ),
+          labelStyle: const TextStyle(color: inacapDarkBlue),
+        ),
 
-      // La pantalla inicial de la aplicación.
+        // Define el tema para los chips
+        chipTheme: ChipThemeData(
+          backgroundColor: Colors.grey.shade300,
+          selectedColor: inacapRed.withOpacity(0.8),
+          labelStyle: const TextStyle(color: inacapDarkBlue),
+          secondaryLabelStyle: const TextStyle(color: Colors.white),
+          padding: const EdgeInsets.all(8),
+        ),
+      ),
       home: const LoginScreen(),
     );
   }

@@ -1,7 +1,7 @@
 // lib/screens/login_screen.dart
 
 import 'package:flutter/material.dart';
-import 'evaluaciones_screen.dart'; // Importamos la nueva pantalla
+import 'welcome_screen.dart'; // MODIFICADO: Importamos la pantalla de bienvenida
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -23,11 +23,14 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 
   void _login() {
+    // Si las validaciones del formulario son correctas...
     if (_formKey.currentState!.validate()) {
-      // Si las validaciones son correctas, navegamos
+      // MODIFICADO: Navegamos a la pantalla de bienvenida y le pasamos el email.
       Navigator.pushReplacement(
         context,
-        MaterialPageRoute(builder: (context) => const EvaluacionesScreen()),
+        MaterialPageRoute(
+          builder: (context) => WelcomeScreen(email: _emailController.text),
+        ),
       );
     }
   }
@@ -44,12 +47,7 @@ class _LoginScreenState extends State<LoginScreen> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.stretch,
               children: [
-                // Logo o Título
-                Icon(
-                  Icons.school_outlined,
-                  size: 80,
-                  color: Theme.of(context).primaryColor,
-                ),
+                Image.asset('assets/images/logo_inacap.png', height: 80),
                 const SizedBox(height: 20),
                 Text(
                   'Bienvenido',
@@ -65,13 +63,12 @@ class _LoginScreenState extends State<LoginScreen> {
                   controller: _emailController,
                   decoration: const InputDecoration(
                     labelText: 'Correo Electrónico',
-                    border: OutlineInputBorder(),
                     prefixIcon: Icon(Icons.email_outlined),
                   ),
                   keyboardType: TextInputType.emailAddress,
                   validator: (value) {
                     if (value == null ||
-                        value.isEmpty ||
+                        value.trim().isEmpty ||
                         !value.contains('@')) {
                       return 'Por favor, ingrese un correo válido';
                     }
@@ -85,7 +82,6 @@ class _LoginScreenState extends State<LoginScreen> {
                   controller: _passwordController,
                   decoration: const InputDecoration(
                     labelText: 'Contraseña',
-                    border: OutlineInputBorder(),
                     prefixIcon: Icon(Icons.lock_outline),
                   ),
                   obscureText: true,
@@ -101,12 +97,6 @@ class _LoginScreenState extends State<LoginScreen> {
                 // Botón de Ingreso
                 ElevatedButton(
                   onPressed: _login,
-                  style: ElevatedButton.styleFrom(
-                    padding: const EdgeInsets.symmetric(vertical: 16),
-                    shape: RoundedRectangleBorder(
-                      borderRadius: BorderRadius.circular(8),
-                    ),
-                  ),
                   child: const Text('Ingresar'),
                 ),
               ],
