@@ -21,38 +21,10 @@ class EvaluacionesScreen extends StatefulWidget {
 
 class _EvaluacionesScreenState extends State<EvaluacionesScreen> {
   // --- DATOS DE LA APLICACIÓN ---
-  final List<Subject> _availableSubjects = [
-    Subject(id: 's1', name: 'Cálculo I'),
-    Subject(id: 's2', name: 'Programación de Apps Móviles'),
-    Subject(id: 's3', name: 'Redes de Datos'),
-  ];
+  // CORREGIDO: Las listas ahora inician vacías.
+  final List<Subject> _availableSubjects = [];
 
-  final List<Evaluation> _allEvaluations = [
-    Evaluation(
-      id: uuid.v4(),
-      title: 'Control N°1',
-      dueDate: DateTime(2025, 10, 8),
-      isDone: true,
-      subjectId: 's1',
-      subjectName: 'Cálculo I',
-    ),
-    Evaluation(
-      id: uuid.v4(),
-      title: 'Avance Portafolio App',
-      dueDate: DateTime.now().add(const Duration(days: 5)),
-      isDone: false,
-      subjectId: 's2',
-      subjectName: 'Programación de Apps Móviles',
-    ),
-    Evaluation(
-      id: uuid.v4(),
-      title: 'Proyecto de Redes',
-      dueDate: DateTime(2025, 9, 30),
-      isDone: false,
-      subjectId: 's3',
-      subjectName: 'Redes de Datos',
-    ),
-  ];
+  final List<Evaluation> _allEvaluations = [];
 
   // --- ESTADO DE LA UI Y FILTROS ---
   List<Evaluation> _filteredEvaluations = [];
