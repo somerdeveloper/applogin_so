@@ -310,8 +310,10 @@ class _EvaluacionesScreenState extends State<EvaluacionesScreen> {
             padding: const EdgeInsets.all(8.0),
             child: TextField(
               onChanged: (value) {
-                _searchQuery = value;
-                _runFilter();
+                setState(() {
+                  _searchQuery = value;
+                  _runFilter();
+                });
               },
               decoration: InputDecoration(
                 hintText: 'Buscar por título...',
@@ -335,8 +337,10 @@ class _EvaluacionesScreenState extends State<EvaluacionesScreen> {
                   label: const Text('Todas'),
                   selected: _selectedStatusFilter == FilterType.all,
                   onSelected: (sel) {
-                    _selectedStatusFilter = FilterType.all;
-                    _runFilter();
+                    setState(() {
+                      _selectedStatusFilter = FilterType.all;
+                      _runFilter();
+                    });
                   },
                 ),
                 const SizedBox(width: 8),
@@ -344,8 +348,10 @@ class _EvaluacionesScreenState extends State<EvaluacionesScreen> {
                   label: const Text('Pendientes'),
                   selected: _selectedStatusFilter == FilterType.pending,
                   onSelected: (sel) {
-                    _selectedStatusFilter = FilterType.pending;
-                    _runFilter();
+                    setState(() {
+                      _selectedStatusFilter = FilterType.pending;
+                      _runFilter();
+                    });
                   },
                 ),
                 const SizedBox(width: 8),
@@ -353,8 +359,10 @@ class _EvaluacionesScreenState extends State<EvaluacionesScreen> {
                   label: const Text('Completadas'),
                   selected: _selectedStatusFilter == FilterType.completed,
                   onSelected: (sel) {
-                    _selectedStatusFilter = FilterType.completed;
-                    _runFilter();
+                    setState(() {
+                      _selectedStatusFilter = FilterType.completed;
+                      _runFilter();
+                    });
                   },
                 ),
               ],

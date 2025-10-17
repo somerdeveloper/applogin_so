@@ -23,9 +23,12 @@ class SubjectsScreen extends StatefulWidget {
 }
 
 class _SubjectsScreenState extends State<SubjectsScreen> {
+  // CORREGIDO: Se envuelve la llamada en setState para forzar la actualización de la UI.
   void _addSubject(String name) {
-    final newSubject = Subject(id: uuid.v4(), name: name);
-    widget.onAddSubject(newSubject);
+    setState(() {
+      final newSubject = Subject(id: uuid.v4(), name: name);
+      widget.onAddSubject(newSubject);
+    });
   }
 
   void _confirmRemoveSubject(Subject subject) {
@@ -41,10 +44,20 @@ class _SubjectsScreenState extends State<SubjectsScreen> {
             onPressed: () => Navigator.of(ctx).pop(),
             child: const Text('Cancelar'),
           ),
+          // CORREGIDO: Se aplica el color de error del tema para consistencia.
           FilledButton(
+            style: FilledButton.styleFrom(
+              backgroundColor: Theme.of(context).colorScheme.error,
+            ),
             onPressed: () {
-              final wasRemoved = widget.onRemoveSubject(subject.id);
+              // CORREGIDO: Se envuelve en setState para actualizar la lista si la eliminación es exitosa.
+              bool wasRemoved = false;
+              setState(() {
+                wasRemoved = widget.onRemoveSubject(subject.id);
+              });
+
               Navigator.of(ctx).pop(); // Cierra el diálogo
+
               if (!wasRemoved && mounted) {
                 ScaffoldMessenger.of(context).clearSnackBars();
                 ScaffoldMessenger.of(context).showSnackBar(
